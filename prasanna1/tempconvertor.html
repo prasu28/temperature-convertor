@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #6a0dad; /* Purple background color */
+        }
+
+        .container {
+            text-align: center;
+            width: 80%;
+            background-color: rgba(255, 255, 255, 0.8); /* Adding some opacity to make text readable */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+        }
+
+        .row:nth-child(1) {
+            background-color: #f0f8ff; /* AliceBlue */
+        }
+
+        .row:nth-child(2) {
+            
+            background-color: #e6e6fa; /* Lavender */
+        }
+
+        .column {
+            flex: 1;
+            padding: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input, select, button {
+            margin-top: 10px;
+            padding: 10px;
+            width: 80%;
+            font-size: 1rem;
+        }
+
+        #result {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Temperature Converter</h1>
+        <div class="row">
+            <div class="column">
+                <label for="inputTemperature">Enter Temperature:</label>
+                <input type="number" id="inputTemperature" placeholder="Enter value">
+                <label for="inputUnit">Choose Unit:</label>
+                <select id="inputUnit">
+                    <option value="celsius">Celsius</option>
+                    <option value="fahrenheit">Fahrenheit</option>
+                    <option value="kelvin">Kelvin</option>
+                </select>
+                <label for="outputUnit">Convert Into:</label>
+                <select id="outputUnit">
+                    <option value="celsius">Celsius</option>
+                    <option value="fahrenheit">Fahrenheit</option>
+                    <option value="kelvin">Kelvin</option>
+                </select>
+                <button onclick="convertTemperature()">Convert</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column" id="result">
+                <!-- Result will be displayed here -->
+            </div>
+        </div>
+    </div>
+    <script>
+        function convertTemperature() {
+            const inputTemperature = parseFloat(document.getElementById('inputTemperature').value);
+            const inputUnit = document.getElementById('inputUnit').value;
+            const outputUnit = document.getElementById('outputUnit').value;
+            let result;
+
+            if (isNaN(inputTemperature)) {
+                result = "Please enter a valid temperature.";
+            } else {
+                if (inputUnit === outputUnit) {
+                    result = `The temperature is the same in ${outputUnit}.`;
+                } else {
+                    switch (inputUnit) {
+                        case 'celsius':
+                            result = convertFromCelsius(inputTemperature, outputUnit);
+                            break;
+                        case 'fahrenheit':
+                            result = convertFromFahrenheit(inputTemperature, outputUnit);
+                            break;
+                        case 'kelvin':
+                            result = convertFromKelvin(inputTemperature, outputUnit);
+                            break;
+                    }
+                }
+            }
+
+            document.getElementById('result').innerText = result;
+        }
+
+        function convertFromCelsius(temp, unit) {
+            switch (unit) {
+                case 'fahrenheit':
+                    return `${(temp * 9/5) + 32} °F`;
+                case 'kelvin':
+                    return `${temp + 273.15} K`;
+            }
+        }
+
+        function convertFromFahrenheit(temp, unit) {
+            switch (unit) {
+                case 'celsius':
+                    return `${(temp - 32) * 5/9} °C`;
+                case 'kelvin':
+                    return `${(temp - 32) * 5/9 + 273.15} K`;
+            }
+        }
+
+        function convertFromKelvin(temp, unit) {
+            switch (unit) {
+                case 'celsius':
+                    return `${temp - 273.15} °C`;
+                case 'fahrenheit':
+                    return `${(temp - 273.15) * 9/5 + 32} °F`;
+            }
+        }
+    </script>
+</body>
+</html>
